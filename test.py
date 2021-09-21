@@ -5,20 +5,15 @@ from faker import Faker
 logger = logging.getLogger()
 
 
-@pytest.fixture(scope="function",autouse=True)
+@pytest.fixture(scope="module",autouse=True)
 def dumb_fixture(faker: Faker):    
-    logger.critical(faker)
+    logger.info(faker)
     pass
 
-
-@pytest.fixture(scope="session",autouse=True)
-def dumb_fixture1(faker: Faker):    
-    logger.critical(faker)
-    pass
 
 
 def test_something(faker):    
-    logger.critical(faker)
+    logger.info(faker)
     # expect The faker fixture will return the session-scoped instance    
     pass
 
