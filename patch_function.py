@@ -9,20 +9,20 @@ from functools import partialmethod, partial
 logger = logging.getLogger()
 
 
-class Patcher:
-    def prepare_class( self, clazz ):
-        @classmethod
-        def on_class_patcher( cls, func_name ):
-            def patch_by_name( new_func) :
-                old_func = getattr( cls(), func_name )
-                def patched_func( self, *args, **kwargs ):                    
-                    return new_func( self, old_func, *args, **kwargs )
-                setattr( cls, func_name, patched_func )
-            return patch_by_name
 
-        setattr( clazz, "patch", on_class_patcher )
+def prepare_patcher( clazz ):
+    @classmethod
+    def on_class_patcher( cls, func_name ):
+        def patch_by_name( new_func) :
+            old_func = getattr( cls(), func_name )
+            def patched_func( self):                    
+                return new_func( self, old_func)
+            setattr( cls, func_name, patched_func )
+        return patch_by_name
 
-Patcher().prepare_class( clazz = Faker )
+    setattr( clazz, "patch", on_class_patcher )
+
+prepare_patcher( clazz = Faker )
 
 # logger.info(Faker.patch)
 
