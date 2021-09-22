@@ -59,5 +59,9 @@ def dumb_fixture(_session_faker: Faker):
 def test_something(faker):    
     logger.info(faker)
     logger.warning(faker.ascii_free_email())
+    fake = Faker()
+    logger.info(fake.ascii_free_email())
     pass
+
+
 
